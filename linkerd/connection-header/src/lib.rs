@@ -26,7 +26,7 @@ pub struct Header {
 pub struct DetectHeader(());
 
 const PREFACE: &[u8] = b"proxy.l5d.io/connect\r\n\r\n";
-const PREFACE_LEN: usize = PREFACE.len() + 4;
+const PREFACE_AND_SIZE_LEN: usize = PREFACE.len() + 4;
 
 #[async_trait::async_trait]
 impl Detect for DetectHeader {
@@ -47,7 +47,7 @@ impl Header {
     /// Encodes the connection header to a byte buffer.
     #[inline]
     pub fn encode_prefaced(&self, buf: &mut BytesMut) -> Result<(), Error> {
-        buf.reserve(PREFACE_LEN);
+        buf.reserve(PREFACE_AND_SIZE_LEN);
         buf.put(PREFACE);
 
         debug_assert!(buf.capacity() >= 4);
@@ -61,10 +61,10 @@ impl Header {
 
         // Once the message length is known, we back-fill the length at the
         // start of the buffer.
-        let len = buf.len() - PREFACE_LEN;
+        let len = buf.len() - PREFACE_AND_SIZE_LEN;
         assert!(len <= std::u32::MAX as usize);
         {
-            let mut buf = &mut buf[PREFACE.len()..PREFACE_LEN];
+            let mut buf = &mut buf[PREFACE.len()..PREFACE_AND_SIZE_LEN];
             buf.put_u32(len as u32);
         }
 
@@ -98,7 +98,7 @@ impl Header {
     ) -> io::Result<Option<Self>> {
         // Read at least enough data to determine whether a connection header is
         // present and, if so, how long it is.
-        while buf.len() < PREFACE_LEN {
+        while buf.len() < PREFACE_AND_SIZE_LEN {
             if io.read_buf(buf).await? == 0 {
                 return Ok(None);
             }
@@ -113,7 +113,7 @@ impl Header {
         // Read the message length. If it is larger than our allowed buffer
         // capacity, fail the connection.
         let msg_len = buf.get_u32() as usize;
-        if msg_len > buf.capacity() + PREFACE_LEN {
+        if msg_len > buf.capacity() + PREFACE_AND_SIZE_LEN {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidData,
                 "Message length exceeds capacity",
