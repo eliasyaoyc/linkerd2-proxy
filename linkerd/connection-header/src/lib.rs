@@ -217,7 +217,7 @@ mod tests {
 
     #[tokio::test]
     async fn detect_no_header() {
-        const MSG: &'static [u8] = b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n";
+        const MSG: &[u8] = b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n";
         let (mut rx, _tx) = tokio_test::io::Builder::new().read(MSG).build_with_handle();
         let mut buf = BytesMut::new();
         let h = DetectHeader::default()
