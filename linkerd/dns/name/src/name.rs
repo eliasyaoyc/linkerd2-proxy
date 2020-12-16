@@ -84,6 +84,7 @@ impl std::error::Error for InvalidName {}
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::str::FromStr;
 
     #[test]
     fn test_is_localhost() {
@@ -110,8 +111,8 @@ mod tests {
             ("web.svc.local.", "web.svc.local"),
         ];
         for (host, expected_result) in cases {
-            let dns_name =
-                Name::try_from(host.as_bytes()).expect(&format!("'{}' was invalid", host));
+            let dns_name = Name::try_from(host.as_bytes())
+                .unwrap_or_else(|_| panic!("'{}' was invalid", host));
             assert_eq!(
                 dns_name.without_trailing_dot(),
                 *expected_result,
@@ -119,7 +120,7 @@ mod tests {
                 dns_name
             )
         }
-        assert!(Name::try_from(".".as_bytes()).is_err());
-        assert!(Name::try_from("".as_bytes()).is_err());
+        assert!(Name::from_str(".").is_err());
+        assert!(Name::from_str("").is_err());
     }
 }
