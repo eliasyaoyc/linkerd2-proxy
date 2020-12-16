@@ -25,7 +25,7 @@ pub struct Header {
 #[derive(Clone, Debug, Default)]
 pub struct DetectHeader(());
 
-const PREFACE: &'static [u8] = b"proxy.l5d.io/connect\r\n\r\n";
+const PREFACE: &[u8] = b"proxy.l5d.io/connect\r\n\r\n";
 const PREFACE_LEN: usize = PREFACE.len() + 4;
 
 #[async_trait::async_trait]
@@ -144,7 +144,7 @@ impl Header {
         let h = proto::Header::decode(buf)
             .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "Invalid header message"))?;
 
-        let name = if h.name.len() == 0 {
+        let name = if h.name.is_empty() {
             None
         } else {
             let n = Name::from_str(&h.name)
