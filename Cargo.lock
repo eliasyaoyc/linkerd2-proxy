@@ -682,7 +682,7 @@ dependencies = [
  "hyper",
  "pin-project 0.4.22",
  "tokio 0.3.5",
- "tokio-test 0.2.1",
+ "tokio-test 0.3.0",
  "tower",
 ]
 
@@ -922,7 +922,7 @@ dependencies = [
  "linkerd2-app-outbound",
  "linkerd2-app-test",
  "tokio 0.3.5",
- "tokio-test 0.2.1",
+ "tokio-test 0.3.0",
  "tower",
  "tower-test",
  "tracing",
@@ -1031,7 +1031,7 @@ dependencies = [
  "linkerd2-error",
  "pin-project 0.4.22",
  "tokio 0.3.5",
- "tokio-test 0.2.1",
+ "tokio-test 0.3.0",
  "tower",
  "tower-test",
  "tracing",
@@ -1209,7 +1209,6 @@ version = "0.1.0"
 dependencies = [
  "bytes 0.6.0",
  "futures 0.3.5",
- "h2 0.3.0",
  "http",
  "http-body",
  "hyper",
@@ -1254,7 +1253,6 @@ name = "linkerd2-metrics"
 version = "0.1.0"
 dependencies = [
  "deflate",
- "futures 0.3.5",
  "hdrhistogram",
  "http",
  "hyper",
@@ -1272,11 +1270,11 @@ dependencies = [
  "futures 0.3.5",
  "http",
  "http-body",
+ "linkerd2-channel",
  "linkerd2-error",
  "linkerd2-metrics",
  "opencensus-proto",
  "pin-project 0.4.22",
- "tokio 0.2.23",
  "tonic",
  "tower",
  "tracing",
@@ -1345,7 +1343,6 @@ version = "0.1.0"
 dependencies = [
  "async-stream 0.2.1",
  "futures 0.3.5",
- "indexmap",
  "linkerd2-channel",
  "linkerd2-error",
  "linkerd2-proxy-core",
@@ -1574,7 +1571,7 @@ dependencies = [
  "linkerd2-error",
  "pin-project 0.4.22",
  "tokio 0.3.5",
- "tokio-test 0.2.1",
+ "tokio-test 0.3.0",
  "tower",
  "tower-test",
  "tracing",
@@ -1613,7 +1610,7 @@ dependencies = [
  "pin-project 0.4.22",
  "tokio 0.3.5",
  "tokio-connect",
- "tokio-test 0.2.1",
+ "tokio-test 0.3.0",
  "tower",
  "tower-test",
  "tracing",
@@ -1628,10 +1625,10 @@ dependencies = [
  "futures 0.3.5",
  "hex",
  "http",
+ "linkerd2-channel",
  "linkerd2-error",
  "linkerd2-stack",
  "rand 0.7.2",
- "tokio 0.2.23",
  "tower",
  "tracing",
 ]
@@ -2602,7 +2599,6 @@ dependencies = [
  "memchr 2.3.3",
  "pin-project-lite 0.1.4",
  "slab",
- "tracing",
 ]
 
 [[package]]
@@ -2624,6 +2620,7 @@ dependencies = [
  "signal-hook-registry",
  "slab",
  "tokio-macros",
+ "tracing",
  "winapi 0.3.8",
 ]
 
@@ -2715,11 +2712,11 @@ dependencies = [
 [[package]]
 name = "tokio-trace"
 version = "0.1.0"
-source = "git+https://github.com/hawkw/tokio-trace?rev=a8240c5cbb4ff981def84920d4087ef23b5edb93#a8240c5cbb4ff981def84920d4087ef23b5edb93"
+source = "git+https://github.com/hawkw/tokio-trace?rev=8bba933f49349cc14665bee7b102f013119c74fa#8bba933f49349cc14665bee7b102f013119c74fa"
 dependencies = [
  "num_cpus",
  "serde",
- "tokio 0.2.23",
+ "tokio 0.3.5",
  "tracing-core",
  "tracing-subscriber",
 ]
