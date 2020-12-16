@@ -142,15 +142,22 @@ impl Header {
     #[inline]
     fn decode<B: Buf>(buf: B) -> io::Result<Option<Self>> {
         let h = proto::Header::decode(buf)
-            .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "Invalid header message"))?;
+            .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
 
         let name = if h.name.is_empty() {
             None
         } else {
             let n = Name::from_str(&h.name)
-                .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "Invalid name"))?;
+                .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
             Some(n)
         };
+
+        if h.port <= 0 || h.port > std::u16::MAX as i32 {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                "Invalid port value",
+            ));
+        }
 
         Ok(Some(Self {
             name,
