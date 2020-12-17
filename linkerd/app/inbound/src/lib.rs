@@ -391,7 +391,7 @@ impl Config {
             .push_map_target(TcpEndpoint::from)
             .push_switch(
                 prevent_loop.into(),
-                svc::stack(tcp_forward.clone())
+                svc::stack(tcp_forward)
                     .push_map_target(TcpEndpoint::from)
                     .push(transport::NewDetectService::layer(
                         transport::detect::DetectTimeout::new(
